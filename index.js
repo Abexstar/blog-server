@@ -14,6 +14,13 @@ app.use("/api/v1/user", userRoute);
 app.use("/api/v1/post", postRoute);
 
 app.use((err, req, res, next) => {
+    if (err instanceof ObjectId) {
+        return res.status(400).json({
+            status: 'error',
+            message: `Invalid id sent`
+        });
+    }
+
     res.status(500).json({
         error: err.message
     });

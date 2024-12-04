@@ -1,5 +1,5 @@
 const express = require('express');
-const { postBlogController } = require('../controller/blog.controller');
+const { postBlogController, getAllBlogs, updateBlog, likeBlog } = require('../controller/blog.controller');
 const authentication = require('../middleware/auth.middleware');
 const multer = require('multer');
 
@@ -17,6 +17,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.use(authentication);
-router.post("/blog", upload.single("file"), postBlogController);
+router.route("/blog").post(upload.single("file"), postBlogController).get(getAllBlogs);
+router.route("/blog/:id").put(updateBlog).patch(likeBlog);
+
 
 module.exports = router
